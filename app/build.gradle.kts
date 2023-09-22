@@ -50,9 +50,11 @@ dependencies {
 //    implementation(libs.store)
 //    implementation(libs.store.mem)
 //    implementation(libs.store.mmkv)
+//    implementation(libs.store.sp)
 //    implementation(libs.store.serialize.gson)
     implementation(project(path = ":store"))
     implementation(project(path = ":store-mem"))
     implementation(project(path = ":store-mmkv"))
+    implementation(project(path = ":store-sp"))
     implementation(project(path = ":store-serialize-gson"))
 }

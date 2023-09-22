@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "vip.oicp.xiaobaicz.lib.store.mmkv"
+    namespace = "vip.oicp.xiaobaicz.lib.store.sp"
     compileSdk = 34
 
     defaultConfig {
@@ -32,7 +32,7 @@ android {
 
 dependencies {
     implementation(project(path = ":store"))
-    implementation(libs.mmkv)
+    implementation(libs.androidx.startup.runtime)
     implementation(libs.auto.service.annotations)
     kapt(libs.auto.service)
 }
@@ -41,7 +41,7 @@ publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "vip.oicp.xiaobaicz"
-            artifactId = "store-mmkv"
+            artifactId = "store-sp"
             version = "1.0.2"
 
             afterEvaluate {
