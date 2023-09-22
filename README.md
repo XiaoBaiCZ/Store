@@ -80,12 +80,13 @@ allprojects {
 // kotlin - build.gradle.kts
 dependencies {
   // ...
-  implementation("com.github.xiaobai-cz.store:store:1.0.1")                 // require
+  implementation("com.github.xiaobai-cz.store:store:1.0.2")                 // require
   // Store Impl Choose at least one
-  implementation("com.github.xiaobai-cz.store:store-mem:1.0.1")             // optional
-  implementation("com.github.xiaobai-cz.store:store-mmkv:1.0.1")            // optional
+  implementation("com.github.xiaobai-cz.store:store-mem:1.0.2")             // optional
+  implementation("com.github.xiaobai-cz.store:store-mmkv:1.0.2")            // optional
+  implementation("com.github.xiaobai-cz.store:store-sp:1.0.2")            // optional
   // Serialize Impl Choose at least one
-  implementation("com.github.xiaobai-cz.store:store-serialize-gson:1.0.1")  // optional
+  implementation("com.github.xiaobai-cz.store:store-serialize-gson:1.0.2")  // optional
 }
 ~~~
 
@@ -101,11 +102,12 @@ allprojects {
 // gradle - build.gradle
 dependencies {
   // ...
-  implementation 'com.github.xiaobai-cz.store:store:1.0.1'                  // require
+  implementation 'com.github.xiaobai-cz.store:store:1.0.2'                  // require
   // Store Impl Choose at least one
-  implementation 'com.github.xiaobai-cz.store:store-mem:1.0.1'              // optional
-  implementation 'com.github.xiaobai-cz.store:store-mmkv:1.0.1'             // optional
+  implementation 'com.github.xiaobai-cz.store:store-mem:1.0.2'              // optional
+  implementation 'com.github.xiaobai-cz.store:store-mmkv:1.0.2'             // optional
+  implementation 'com.github.xiaobai-cz.store:store-sp:1.0.2'             // optional
   // Serialize Impl Choose at least one
-  implementation 'com.github.xiaobai-cz.store:store-serialize-gson:1.0.1'   // optional
+  implementation 'com.github.xiaobai-cz.store:store-serialize-gson:1.0.2'   // optional
 }
 ~~~
