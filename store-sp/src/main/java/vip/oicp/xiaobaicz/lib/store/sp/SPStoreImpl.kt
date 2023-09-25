@@ -9,13 +9,10 @@ import vip.oicp.xiaobaicz.lib.store.sp.annotation.SPStore
 
 @AutoService(Store::class)
 class SPStoreImpl : Store {
-    companion object {
-        internal lateinit var contextProvider: ContextProvider
-    }
     private val map: MutableMap<String, SharedPreferences> = HashMap()
     private fun findTable(table: String): SharedPreferences {
         if (map[table] == null)
-            map[table] = contextProvider.get().getSharedPreferences(table, Context.MODE_PRIVATE)
+            map[table] = ContextProvider.get().getSharedPreferences(table, Context.MODE_PRIVATE)
         return map[table]!!
     }
     override fun set(table: String, key: String, value: String?) {
