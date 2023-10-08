@@ -3,6 +3,14 @@ Specific implementation of SharedPreferences storage
 
 ## Example
 ~~~ Kotlin
+class App : Application() {
+    override fun onCreate() {
+        // ...
+        ContextProvider.provider = ContextProvider { this }
+    }
+}
+~~~
+~~~ Kotlin
 @SPStore
 interface Local {
     // ...

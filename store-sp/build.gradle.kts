@@ -32,7 +32,6 @@ android {
 
 dependencies {
     implementation(project(path = ":store"))
-    implementation(libs.androidx.startup.runtime)
     implementation(libs.auto.service.annotations)
     kapt(libs.auto.service)
 }
@@ -42,7 +41,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "vip.oicp.xiaobaicz"
             artifactId = "store-sp"
-            version = "1.0.3"
+            version = "1.0.4"
 
             afterEvaluate {
                 from(components["release"])

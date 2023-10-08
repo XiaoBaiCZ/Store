@@ -12,7 +12,7 @@ class SPStoreImpl : Store {
     private val map: MutableMap<String, SharedPreferences> = HashMap()
     private fun findTable(table: String): SharedPreferences {
         if (map[table] == null)
-            map[table] = ContextProvider.get().getSharedPreferences(table, Context.MODE_PRIVATE)
+            map[table] = ContextProvider.context.getSharedPreferences(table, Context.MODE_PRIVATE)
         return map[table]!!
     }
     override fun set(table: String, key: String, value: String?) {

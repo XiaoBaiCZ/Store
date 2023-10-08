@@ -42,7 +42,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "vip.oicp.xiaobaicz"
             artifactId = "store-mmkv"
-            version = "1.0.3"
+            version = "1.0.4"
 
             afterEvaluate {
                 from(components["release"])
