@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Store"
+rootProject.name = "store"
 include(":app")
 include(":store")
 include(":store-mem")
