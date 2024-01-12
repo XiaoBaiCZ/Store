@@ -80,13 +80,13 @@ allprojects {
 // kotlin - build.gradle.kts
 dependencies {
   // ...
-  implementation("com.github.xiaobai-cz.store:store:1.0.5")                 // require
+  implementation("com.github.xiaobaicz.store:store:1.0.5")                 // require
   // Store Impl Choose at least one
-  implementation("com.github.xiaobai-cz.store:store-mem:1.0.5")             // optional
-  implementation("com.github.xiaobai-cz.store:store-mmkv:1.0.5")            // optional
-  implementation("com.github.xiaobai-cz.store:store-sp:1.0.5")            // optional
+  implementation("com.github.xiaobaicz.store:store-mem:1.0.5")             // optional
+  implementation("com.github.xiaobaicz.store:store-mmkv:1.0.5")            // optional
+  implementation("com.github.xiaobaicz.store:store-sp:1.0.5")            // optional
   // Serialize Impl Choose at least one
-  implementation("com.github.xiaobai-cz.store:store-serialize-gson:1.0.5")  // optional
+  implementation("com.github.xiaobaicz.store:store-serialize-gson:1.0.5")  // optional
 }
 ~~~
 
@@ -102,12 +102,12 @@ allprojects {
 // gradle - build.gradle
 dependencies {
   // ...
-  implementation 'com.github.xiaobai-cz.store:store:1.0.5'                  // require
+  implementation 'com.github.xiaobaicz.store:store:1.0.5'                  // require
   // Store Impl Choose at least one
-  implementation 'com.github.xiaobai-cz.store:store-mem:1.0.5'              // optional
-  implementation 'com.github.xiaobai-cz.store:store-mmkv:1.0.5'             // optional
-  implementation 'com.github.xiaobai-cz.store:store-sp:1.0.5'             // optional
+  implementation 'com.github.xiaobaicz.store:store-mem:1.0.5'              // optional
+  implementation 'com.github.xiaobaicz.store:store-mmkv:1.0.5'             // optional
+  implementation 'com.github.xiaobaicz.store:store-sp:1.0.5'             // optional
   // Serialize Impl Choose at least one
-  implementation 'com.github.xiaobai-cz.store:store-serialize-gson:1.0.5'   // optional
+  implementation 'com.github.xiaobaicz.store:store-serialize-gson:1.0.5'   // optional
 }
 ~~~
