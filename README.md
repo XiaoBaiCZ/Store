@@ -70,44 +70,28 @@ class GsonSerializeImpl : Serialize {
 ## Dependencie
 ~~~ kotlin
 // kotlin - build.gradle.kts
-allprojects {
-  repositories {
-    // ...
-    maven { setUrl("https://jitpack.io") }
-  }
-}
-
-// kotlin - build.gradle.kts
 dependencies {
   // ...
-  implementation("com.github.xiaobaicz.store:store:1.0.5")                 // require
+  implementation("io.github.xiaobaicz:store:1.0.5")                 // require
   // Store Impl Choose at least one
-  implementation("com.github.xiaobaicz.store:store-mem:1.0.5")             // optional
-  implementation("com.github.xiaobaicz.store:store-mmkv:1.0.5")            // optional
-  implementation("com.github.xiaobaicz.store:store-sp:1.0.5")            // optional
+  implementation("io.github.xiaobaicz:store-mem:1.0.5")             // optional
+  implementation("io.github.xiaobaicz:store-mmkv:1.0.5")            // optional
+  implementation("io.github.xiaobaicz:store-sp:1.0.5")            // optional
   // Serialize Impl Choose at least one
-  implementation("com.github.xiaobaicz.store:store-serialize-gson:1.0.5")  // optional
+  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.5")  // optional
 }
 ~~~
 
 ~~~ gradle
-// gradle - root build.gradle
-allprojects {
-  repositories {
-    // ...
-    maven { url 'https://jitpack.io' }
-  }
-}
-
 // gradle - build.gradle
 dependencies {
   // ...
-  implementation 'com.github.xiaobaicz.store:store:1.0.5'                  // require
+  implementation 'io.github.xiaobaicz:store:1.0.5'                  // require
   // Store Impl Choose at least one
-  implementation 'com.github.xiaobaicz.store:store-mem:1.0.5'              // optional
-  implementation 'com.github.xiaobaicz.store:store-mmkv:1.0.5'             // optional
-  implementation 'com.github.xiaobaicz.store:store-sp:1.0.5'             // optional
+  implementation 'io.github.xiaobaicz:store-mem:1.0.5'              // optional
+  implementation 'io.github.xiaobaicz:store-mmkv:1.0.5'             // optional
+  implementation 'io.github.xiaobaicz:store-sp:1.0.5'             // optional
   // Serialize Impl Choose at least one
-  implementation 'com.github.xiaobaicz.store:store-serialize-gson:1.0.5'   // optional
+  implementation 'io.github.xiaobaicz:store-serialize-gson:1.0.5'   // optional
 }
 ~~~
