@@ -24,11 +24,11 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
-store = { module = "com.github.xiaobai-cz.store:store", version.ref = "store" }
-store-mmkv = { module = "com.github.xiaobai-cz.store:store-mmkv", version.ref = "store" }
-store-sp = { module = "com.github.xiaobai-cz.store:store-sp", version.ref = "store" }
-store-mem = { module = "com.github.xiaobai-cz.store:store-mem", version.ref = "store" }
-store-serialize-gson = { module = "com.github.xiaobai-cz.store:store-serialize-gson", version.ref = "store" }
+store = { module = "io.github.xiaobaicz:store", version.ref = "store" }
+store-mmkv = { module = "io.github.xiaobaicz:store-mmkv", version.ref = "store" }
+store-sp = { module = "io.github.xiaobaicz:store-sp", version.ref = "store" }
+store-mem = { module = "io.github.xiaobaicz:store-mem", version.ref = "store" }
+store-serialize-gson = { module = "io.github.xiaobaicz:store-serialize-gson", version.ref = "store" }
 
 [bundles]
 
