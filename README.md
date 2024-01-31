@@ -72,13 +72,13 @@ class GsonSerializeImpl : Serialize {
 // kotlin - build.gradle.kts
 dependencies {
   // ...
-  implementation("io.github.xiaobaicz:store:1.0.5")                 // require
+  implementation("io.github.xiaobaicz:store:1.0.6")                 // require
   // Store Impl Choose at least one
-  implementation("io.github.xiaobaicz:store-mem:1.0.5")             // optional
-  implementation("io.github.xiaobaicz:store-mmkv:1.0.5")            // optional
-  implementation("io.github.xiaobaicz:store-sp:1.0.5")            // optional
+  implementation("io.github.xiaobaicz:store-mem:1.0.6")             // optional
+  implementation("io.github.xiaobaicz:store-mmkv:1.0.6")            // optional
+  implementation("io.github.xiaobaicz:store-sp:1.0.6")              // optional
   // Serialize Impl Choose at least one
-  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.5")  // optional
+  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.6")  // optional
 }
 ~~~
 
@@ -86,12 +86,12 @@ dependencies {
 // gradle - build.gradle
 dependencies {
   // ...
-  implementation 'io.github.xiaobaicz:store:1.0.5'                  // require
+  implementation 'io.github.xiaobaicz:store:1.0.6'                  // require
   // Store Impl Choose at least one
-  implementation 'io.github.xiaobaicz:store-mem:1.0.5'              // optional
-  implementation 'io.github.xiaobaicz:store-mmkv:1.0.5'             // optional
-  implementation 'io.github.xiaobaicz:store-sp:1.0.5'             // optional
+  implementation 'io.github.xiaobaicz:store-mem:1.0.6'              // optional
+  implementation 'io.github.xiaobaicz:store-mmkv:1.0.6'             // optional
+  implementation 'io.github.xiaobaicz:store-sp:1.0.6'               // optional
   // Serialize Impl Choose at least one
-  implementation 'io.github.xiaobaicz:store-serialize-gson:1.0.5'   // optional
+  implementation 'io.github.xiaobaicz:store-serialize-gson:1.0.6'   // optional
 }
 ~~~
