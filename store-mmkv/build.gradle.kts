@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "vip.oicp.xiaobaicz.lib.store.mmkv"
+    namespace = "io.github.xiaobaicz.store.mmkv"
     compileSdk = 34
 
     defaultConfig {

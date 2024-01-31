@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="vip.oicp.xiaobaicz.lib.store.demo.entity.Account"/>
+        <import type="io.github.xiaobaicz.store.demo.entity.Account"/>
         <variable
             name="local"
-            type="vip.oicp.xiaobaicz.lib.store.demo.store.Local" />
+            type="io.github.xiaobaicz.store.demo.store.Local" />
     </data>
 
     <LinearLayout

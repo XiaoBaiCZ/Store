@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "vip.oicp.xiaobaicz.lib.store.sp"
+    namespace = "io.github.xiaobaicz.store.sp"
     compileSdk = 34
 
     defaultConfig {

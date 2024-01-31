@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "vip.oicp.xiaobaicz.lib.store.demo"
+    namespace = "io.github.xiaobaicz.store.demo"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "vip.oicp.xiaobaicz.lib.store.demo"
+        applicationId = "io.github.xiaobaicz.store.demo"
         minSdk = 23
         targetSdk = 34
         versionCode = 1
