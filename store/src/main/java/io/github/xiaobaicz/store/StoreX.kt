@@ -1,11 +1,13 @@
 @file:[JvmName("StoreX") Suppress("unused")]
 package io.github.xiaobaicz.store
 
+import io.github.xiaobaicz.store.debug.log
+import io.github.xiaobaicz.store.debug.timeLog
 import io.github.xiaobaicz.store.proxy.StoreProxy
+import io.github.xiaobaicz.store.spi.lazyLoadSpi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.reflect.Proxy
-import java.util.ServiceLoader
 
 private val storeCache: MutableSet<Any> = HashSet()
 
@@ -33,41 +35,31 @@ inline fun <reified T> store(): T {
     return store(T::class.java)
 }
 
-private val stores: List<Store> by lazy {
-    val clazz = Store::class.java
-    val stores = ServiceLoader.load(clazz, clazz.classLoader).toList()
-    if (stores.isEmpty())
+private val stores: List<Store> by lazyLoadSpi {
+    if (it.isEmpty())
         throw RuntimeException("There is no Store interface implementation class, please register Store via SPI.")
-    stores.apply {
-        log("SPI Store:")
-        for ((index, store) in this.withIndex()) {
-            log("   $index: ${store::class.java}")
-        }
+    log("SPI Store:")
+    it.forEachIndexed { index, store ->
+        log("   $index: ${store::class.java}")
     }
 }
 
-private val serializes: List<Serialize> by lazy {
-    val clazz = Serialize::class.java
-    val serializes = ServiceLoader.load(clazz, clazz.classLoader).toList()
-    if (serializes.isEmpty())
+private val serializes: List<Serialize> by lazyLoadSpi {
+    if (it.isEmpty())
         throw RuntimeException("There is no Serialize interface implementation class, please register Serialize via SPI.")
-    serializes.apply {
-        log("SPI Serialize:")
-        for ((index, serialize) in this.withIndex()) {
-            log("   $index: ${serialize::class.java}")
-        }
+    log("SPI Serialize:")
+    it.forEachIndexed { index, serialize ->
+        log("   $index: ${serialize::class.java}")
     }
 }
 
 private fun findStore(clazz: Class<*>): Store {
-    if (stores.isEmpty()) throw RuntimeException("Target Store implementation class not found")
     return stores.find {
         it.filter(clazz)
     } ?: throw RuntimeException("No suitable Store implementations found")
 }
 
 private fun findSerialize(clazz: Class<*>): Serialize {
-    if (serializes.isEmpty()) throw RuntimeException("Target Serialize implementation class not found")
     return serializes.find {
         it.filter(clazz)
     } ?: throw RuntimeException("No suitable Serialize implementations found")

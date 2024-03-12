@@ -27,6 +27,10 @@ class MemStoreImpl : Store {
         return t[key]
     }
 
+    override fun clear(table: String) {
+        map[table]?.clear()
+    }
+
     override fun filter(clazz: Class<*>): Boolean {
         return clazz.getAnnotation(MemStore::class.java) != null
     }

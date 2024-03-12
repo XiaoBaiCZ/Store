@@ -28,6 +28,10 @@ class MMKVStoreImpl : Store {
         return t.decodeString(key, null)
     }
 
+    override fun clear(table: String) {
+        map[table]?.clearAll()
+    }
+
     override fun filter(clazz: Class<*>): Boolean {
         return clazz.getAnnotation(MMKVStore::class.java) != null
     }

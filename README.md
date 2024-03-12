@@ -13,7 +13,7 @@ Abstract storage
 // Declare an interface
 @MMKVStore      // Storage with MMVK
 @GsonSerialize  // Serialization with Gson
-interface Local {
+interface Local : Clear {
     var account: Account?  // Declaring interface properties (customized structures)
     var version: String?   // Declaring interface properties
 }
@@ -25,11 +25,14 @@ class Account(
 )
 
 // Using the store() method
-val local: Local = store()
+val local = store<Local>()
 
 // Read and Write
 local.account = Account("xiaobai", "111111")
 println(local.account)
+
+// clear
+local.clear()
 ~~~
 
 - Debug
@@ -37,7 +40,7 @@ println(local.account)
 class App : Application() {
     override fun onCreate() {
         // ...
-        storeDebug = true // Print log
+        storeLog = true // Print log
     }
 }
 ~~~
@@ -69,29 +72,14 @@ class GsonSerializeImpl : Serialize {
 
 ## Dependencie
 ~~~ kotlin
-// kotlin - build.gradle.kts
 dependencies {
   // ...
-  implementation("io.github.xiaobaicz:store:1.0.6")                 // require
+  implementation("io.github.xiaobaicz:store:1.0.7")                 // require
   // Store Impl Choose at least one
-  implementation("io.github.xiaobaicz:store-mem:1.0.6")             // optional
-  implementation("io.github.xiaobaicz:store-mmkv:1.0.6")            // optional
-  implementation("io.github.xiaobaicz:store-sp:1.0.6")              // optional
+  implementation("io.github.xiaobaicz:store-mem:1.0.7")             // optional
+  implementation("io.github.xiaobaicz:store-mmkv:1.0.7")            // optional
   // Serialize Impl Choose at least one
-  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.6")  // optional
+  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.7")  // optional
 }
 ~~~
 
-~~~ gradle
-// gradle - build.gradle
-dependencies {
-  // ...
-  implementation 'io.github.xiaobaicz:store:1.0.6'                  // require
-  // Store Impl Choose at least one
-  implementation 'io.github.xiaobaicz:store-mem:1.0.6'              // optional
-  implementation 'io.github.xiaobaicz:store-mmkv:1.0.6'             // optional
-  implementation 'io.github.xiaobaicz:store-sp:1.0.6'               // optional
-  // Serialize Impl Choose at least one
-  implementation 'io.github.xiaobaicz:store-serialize-gson:1.0.6'   // optional
-}
-~~~

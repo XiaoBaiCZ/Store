@@ -2,10 +2,11 @@ package io.github.xiaobaicz.store.proxy
 
 import io.github.xiaobaicz.store.Serialize
 import io.github.xiaobaicz.store.Store
+import io.github.xiaobaicz.store.Clear
 import io.github.xiaobaicz.store.compat.annotation.Migrate
 import io.github.xiaobaicz.store.compat.storeGetterHook
-import io.github.xiaobaicz.store.log
-import io.github.xiaobaicz.store.timeLog
+import io.github.xiaobaicz.store.debug.log
+import io.github.xiaobaicz.store.debug.timeLog
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 
@@ -37,6 +38,7 @@ internal class StoreProxy(
         method ?: throw NullPointerException("There is no method.")
         return when (method.declaringClass) {
             clazz -> handle(method, args)
+            Clear::class.java -> store.clear(table)
             Any::class.java -> method.invoke(this, *(args ?: arrayOf()))
             else -> throw RuntimeException("Methods that are not declared classes")
         }

@@ -1,10 +1,10 @@
 @file:JvmName("Debug")
-package io.github.xiaobaicz.store
+package io.github.xiaobaicz.store.debug
 
-var storeDebug: Boolean = false
+var storeLog: Boolean = false
 
 internal fun log(msg: Any) {
-    if (!storeDebug) return
+    if (!storeLog) return
     println("Store | $msg")
 }
 

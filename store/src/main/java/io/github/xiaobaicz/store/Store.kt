@@ -21,4 +21,10 @@ interface Store : Filter {
      */
     fun get(table: String, key: String): String?
 
+    /**
+     * 清空存储
+     * @param table 分组
+     */
+    fun clear(table: String)
+
 }
