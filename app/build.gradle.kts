@@ -41,8 +41,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    implementation(libs.mmkv)
-
     implementation(project(path = ":store"))
     implementation(project(path = ":store-mem"))
     implementation(project(path = ":store-mmkv"))

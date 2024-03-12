@@ -1,5 +1,8 @@
 package io.github.xiaobaicz.store
 
+import io.github.xiaobaicz.store.spi.StoreInit
+import io.github.xiaobaicz.store.spi.loadSpi
+
 /**
  * 声明存储接口，具体存储方式由实现类决定
  */
@@ -26,5 +29,16 @@ interface Store : Filter {
      * @param table 分组
      */
     fun clear(table: String)
+
+    companion object {
+        /**
+         * 存储初始化
+         */
+        fun init(any: Any? = null) {
+            loadSpi<StoreInit>().forEach {
+                it.init(any)
+            }
+        }
+    }
 
 }
