@@ -1,14 +1,13 @@
 package io.github.xiaobaicz.store.mmkv
 
-import android.app.Application
+import android.content.Context
 import com.google.auto.service.AutoService
 import com.tencent.mmkv.MMKV
-import io.github.xiaobaicz.store.spi.StoreInit
+import io.github.xiaobaicz.initializer.Initializer
 
-@AutoService(StoreInit::class)
-class MMKVInit : StoreInit {
-    override fun init(any: Any?) {
-        if (any !is Application) return
-        MMKV.initialize(any)
+@AutoService(Initializer::class)
+class MMKVInit : Initializer {
+    override fun onInit(context: Context) {
+        MMKV.initialize(context)
     }
 }

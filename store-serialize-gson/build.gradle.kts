@@ -25,7 +25,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store-serialize-gson"
-            version = "1.0.7"
+            version = "1.0.8"
 
             afterEvaluate {
                 from(components["java"])

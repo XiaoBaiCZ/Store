@@ -74,12 +74,12 @@ class GsonSerializeImpl : Serialize {
 ~~~ kotlin
 dependencies {
   // ...
-  implementation("io.github.xiaobaicz:store:1.0.7")                 // require
+  implementation("io.github.xiaobaicz:store:1.0.8")                 // require
   // Store Impl Choose at least one
-  implementation("io.github.xiaobaicz:store-mem:1.0.7")             // optional
-  implementation("io.github.xiaobaicz:store-mmkv:1.0.7")            // optional
+  implementation("io.github.xiaobaicz:store-mem:1.0.8")             // optional
+  implementation("io.github.xiaobaicz:store-mmkv:1.0.8")            // optional
   // Serialize Impl Choose at least one
-  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.7")  // optional
+  implementation("io.github.xiaobaicz:store-serialize-gson:1.0.8")  // optional
 }
 ~~~
 

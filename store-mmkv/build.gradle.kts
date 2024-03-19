@@ -36,6 +36,8 @@ dependencies {
     implementation(libs.mmkv)
     implementation(libs.auto.service.annotations)
     kapt(libs.auto.service)
+
+    implementation(libs.initializer)
 }
 
 publishing {
@@ -43,7 +45,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store-mmkv"
-            version = "1.0.7"
+            version = "1.0.8"
 
             afterEvaluate {
                 from(components["release"])
