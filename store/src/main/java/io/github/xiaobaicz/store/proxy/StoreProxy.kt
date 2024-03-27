@@ -1,10 +1,8 @@
 package io.github.xiaobaicz.store.proxy
 
+import io.github.xiaobaicz.store.Clear
 import io.github.xiaobaicz.store.Serialize
 import io.github.xiaobaicz.store.Store
-import io.github.xiaobaicz.store.Clear
-import io.github.xiaobaicz.store.compat.annotation.Migrate
-import io.github.xiaobaicz.store.compat.storeGetterHook
 import io.github.xiaobaicz.store.debug.log
 import io.github.xiaobaicz.store.debug.timeLog
 import java.lang.reflect.InvocationHandler
@@ -70,7 +68,7 @@ internal class StoreProxy(
         when {
             method.isGetter -> {
                 val any = getter(method.returnType, table, key(method))
-                any ?: migrate(method.returnType, table, key(method), method)
+                any ?: migrate(table, key(method), method)
             }
             method.isSetter -> setter(table, key(method), args?.get(0))
             else -> throw RuntimeException("Not a Getter or Setter method")
@@ -98,19 +96,17 @@ internal class StoreProxy(
         store.set(table, key, data)
     }
 
-    private fun migrate(returnType: Class<*>, table: String, key: String, method: Method): Any? {
-        val hook = storeGetterHook ?: return null
-        val migrate = method.getAnnotation(Migrate::class.java) ?: return null
-        log("migrate: ${migrate.table} -> ${migrate.key} | start")
-        val old: Any? = hook.find(method.returnType, migrate.table, migrate.key)
+    private fun migrate(table: String, key: String, method: Method): Any? {
+        val hook = Store.getterHook ?: return null
+        log("migrate: $table -> $key | start")
+        val old: Any? = hook.find(method.returnType, table, key)
         log(" - get: $old")
         if (old != null) {
             log(" - set: $old")
             setter(this.table, key(method), old)
         }
-        log("migrate: ${migrate.table} -> ${migrate.key} | end")
-        if (old == null) return null
-        return getter(returnType, table, key)
+        log("migrate: $table -> $key | end")
+        return old
     }
 
 }
