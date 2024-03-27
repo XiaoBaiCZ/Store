@@ -8,6 +8,8 @@ import io.github.xiaobaicz.store.spi.lazyLoadSpi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.reflect.Proxy
+import io.github.xiaobaicz.store.annotation.Serialize as SerializeAnnotation
+import io.github.xiaobaicz.store.annotation.Store as StoreAnnotation
 
 private val storeCache: MutableSet<Any> = HashSet()
 
@@ -54,14 +56,16 @@ private val serializes: List<Serialize> by lazyLoadSpi {
 }
 
 private fun findStore(clazz: Class<*>): Store {
+    val store = clazz.getAnnotation(StoreAnnotation::class.java) ?: throw RuntimeException("No @Store annotation found")
     return stores.find {
-        it.filter(clazz)
+        it::class == store.clazz
     } ?: throw RuntimeException("No suitable Store implementations found")
 }
 
 private fun findSerialize(clazz: Class<*>): Serialize {
+    val serialize = clazz.getAnnotation(SerializeAnnotation::class.java) ?: throw RuntimeException("No @Serialize annotation found")
     return serializes.find {
-        it.filter(clazz)
+        it::class == serialize.clazz
     } ?: throw RuntimeException("No suitable Serialize implementations found")
 }
 

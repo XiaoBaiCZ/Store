@@ -41,6 +41,11 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    implementation(libs.auto.service.annotations)
+    kapt(libs.auto.service)
+
+    implementation(libs.initializer)
+
     implementation(project(path = ":store"))
     implementation(project(path = ":store-mem"))
     implementation(project(path = ":store-mmkv"))

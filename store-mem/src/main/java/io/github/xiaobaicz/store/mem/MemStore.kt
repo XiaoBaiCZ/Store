@@ -3,10 +3,9 @@ package io.github.xiaobaicz.store.mem
 
 import com.google.auto.service.AutoService
 import io.github.xiaobaicz.store.Store
-import io.github.xiaobaicz.store.mem.annotation.MemStore
 
 @AutoService(Store::class)
-class MemStoreImpl : Store {
+class MemStore : Store {
     private val map: MutableMap<String, MutableMap<String, String>> = HashMap()
     private fun findTable(table: String): MutableMap<String, String> {
         if (map[table] == null)
@@ -29,9 +28,5 @@ class MemStoreImpl : Store {
 
     override fun clear(table: String) {
         map[table]?.clear()
-    }
-
-    override fun filter(clazz: Class<*>): Boolean {
-        return clazz.getAnnotation(MemStore::class.java) != null
     }
 }

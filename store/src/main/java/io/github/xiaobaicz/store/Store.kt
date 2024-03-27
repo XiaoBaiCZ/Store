@@ -5,7 +5,7 @@ import io.github.xiaobaicz.store.compat.GetterHook
 /**
  * 声明存储接口，具体存储方式由实现类决定
  */
-interface Store : Filter {
+interface Store {
 
     /**
      * 存储

@@ -4,10 +4,9 @@ package io.github.xiaobaicz.store.mmkv
 import com.google.auto.service.AutoService
 import com.tencent.mmkv.MMKV
 import io.github.xiaobaicz.store.Store
-import io.github.xiaobaicz.store.mmkv.annotation.MMKVStore
 
 @AutoService(Store::class)
-class MMKVStoreImpl : Store {
+class MMKVStore : Store {
     private val map: MutableMap<String, MMKV> = HashMap()
     private fun findTable(table: String): MMKV {
         if (map[table] == null)
@@ -30,9 +29,5 @@ class MMKVStoreImpl : Store {
 
     override fun clear(table: String) {
         map[table]?.clearAll()
-    }
-
-    override fun filter(clazz: Class<*>): Boolean {
-        return clazz.getAnnotation(MMKVStore::class.java) != null
     }
 }

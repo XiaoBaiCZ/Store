@@ -3,7 +3,7 @@ package io.github.xiaobaicz.store
 /**
  * 声明序列化接口，具体序列化方式由实现类决定
  */
-interface Serialize : Filter {
+interface Serialize {
 
     /**
      * 序列化

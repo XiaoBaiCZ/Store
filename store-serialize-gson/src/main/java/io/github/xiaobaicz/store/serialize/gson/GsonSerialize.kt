@@ -4,10 +4,9 @@ package io.github.xiaobaicz.store.serialize.gson
 import com.google.auto.service.AutoService
 import com.google.gson.Gson
 import io.github.xiaobaicz.store.Serialize
-import io.github.xiaobaicz.store.serialize.gson.annotation.GsonSerialize
 
 @AutoService(Serialize::class)
-class GsonSerializeImpl : Serialize {
+class GsonSerialize : Serialize {
     private val gson = Gson()
     override fun serialize(target: Any?): String? {
         target ?: return null
@@ -17,9 +16,5 @@ class GsonSerializeImpl : Serialize {
     override fun deserialize(type: Class<*>, serialize: String?): Any? {
         serialize ?: return null
         return gson.fromJson(serialize, type)
-    }
-
-    override fun filter(clazz: Class<*>): Boolean {
-        return clazz.getAnnotation(GsonSerialize::class.java) != null
     }
 }
