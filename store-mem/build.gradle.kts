@@ -21,7 +21,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store-mem"
-            version = "1.1.0"
+            version = "1.1.1"
 
             afterEvaluate {
                 from(components["java"])
