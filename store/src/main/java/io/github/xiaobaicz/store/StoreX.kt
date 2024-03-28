@@ -15,6 +15,13 @@ private val storeCache = HashMap<Class<*>, Any>()
 /**
  * 获取Store
  */
+inline fun <reified T> lazyStore(): Lazy<T> {
+    return lazy { store(T::class.java) }
+}
+
+/**
+ * 获取Store
+ */
 inline fun <reified T> store(): T {
     return store(T::class.java)
 }
