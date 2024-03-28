@@ -2,14 +2,16 @@ package io.github.xiaobaicz.store.debug
 
 import io.github.xiaobaicz.store.Store
 
-internal fun log(msg: Any) {
+var logTag = "Store"
+
+internal fun log(msg: Any, tag: String = logTag) {
     if (!Store.log) return
-    println("Store | $msg")
+    println("$tag | $msg")
 }
 
-internal fun <T> timeLog(tag: String = "", func: ()->T): T {
+internal fun <T> timeLog(label: String = "", tag: String = logTag, func: ()->T): T {
     val time = System.currentTimeMillis()
     val result = func()
-    log("$tag: ${System.currentTimeMillis() - time}ms")
+    log("$label: ${System.currentTimeMillis() - time}ms", tag)
     return result
 }

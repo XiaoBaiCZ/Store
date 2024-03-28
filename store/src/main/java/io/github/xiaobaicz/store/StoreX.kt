@@ -1,34 +1,16 @@
-@file:[JvmName("StoreX") Suppress("unused")]
+@file:JvmName("StoreX")
 package io.github.xiaobaicz.store
 
 import io.github.xiaobaicz.store.debug.log
 import io.github.xiaobaicz.store.debug.timeLog
 import io.github.xiaobaicz.store.proxy.StoreProxy
-import io.github.xiaobaicz.store.spi.lazyLoadSpi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.reflect.Proxy
 import io.github.xiaobaicz.store.annotation.Serialize as SerializeAnnotation
 import io.github.xiaobaicz.store.annotation.Store as StoreAnnotation
 
-private val storeCache: MutableSet<Any> = HashSet()
-
-@Suppress("UNCHECKED_CAST")
-fun <T> store(clazz: Class<T>): T = timeLog(" - time") {
-    if (!clazz.isInterface) throw RuntimeException("not an interface class")
-    val store = findStore(clazz)
-    val serialize = findSerialize(clazz)
-    val target = StoreProxy(clazz, store, serialize)
-    val cache = storeCache.find { it == target }
-    if (cache != null) return@timeLog (cache as T).apply {
-        log("get cache proxy instance: $cache")
-    }
-    val loader = clazz.classLoader
-    Proxy.newProxyInstance(loader, arrayOf(clazz), StoreProxy(clazz, store, serialize)).apply {
-        log("new proxy instance: $this")
-        storeCache.add(this)
-    } as T
-}
+private val storeCache = HashMap<Class<*>, Any>()
 
 /**
  * 获取Store
@@ -37,41 +19,44 @@ inline fun <reified T> store(): T {
     return store(T::class.java)
 }
 
-private val stores: List<Store> by lazyLoadSpi {
-    if (it.isEmpty())
-        throw RuntimeException("There is no Store interface implementation class, please register Store via SPI.")
-    log("SPI Store:")
-    it.forEachIndexed { index, store ->
-        log("   $index: ${store::class.java}")
+/**
+ * 获取Store
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T> store(clazz: Class<T>): T = timeLog(" - time") {
+    if (!clazz.isInterface) throw IllegalArgumentException("not an interface class")
+    if (storeCache[clazz] == null) {
+        val store = newStore(clazz)
+        val serialize = newSerialize(clazz)
+        val loader = clazz.classLoader
+        Proxy.newProxyInstance(loader, arrayOf(clazz), StoreProxy(clazz, store, serialize)).also {
+            log("new proxy instance: $it")
+            storeCache[clazz] = it
+        } as T
+    } else {
+        (storeCache[clazz] as T).also {
+            log("get cache proxy instance: $it")
+        }
     }
 }
 
-private val serializes: List<Serialize> by lazyLoadSpi {
-    if (it.isEmpty())
-        throw RuntimeException("There is no Serialize interface implementation class, please register Serialize via SPI.")
-    log("SPI Serialize:")
-    it.forEachIndexed { index, serialize ->
-        log("   $index: ${serialize::class.java}")
-    }
+private fun newStore(clazz: Class<*>): Store {
+    return clazz.getAnnotation(StoreAnnotation::class.java)
+        .clazz.java
+        .getConstructor()
+        .newInstance()
 }
 
-private fun findStore(clazz: Class<*>): Store {
-    val store = clazz.getAnnotation(StoreAnnotation::class.java) ?: throw RuntimeException("No @Store annotation found")
-    return stores.find {
-        it::class == store.clazz
-    } ?: throw RuntimeException("No suitable Store implementations found")
-}
-
-private fun findSerialize(clazz: Class<*>): Serialize {
-    val serialize = clazz.getAnnotation(SerializeAnnotation::class.java) ?: throw RuntimeException("No @Serialize annotation found")
-    return serializes.find {
-        it::class == serialize.clazz
-    } ?: throw RuntimeException("No suitable Serialize implementations found")
+private fun newSerialize(clazz: Class<*>): Serialize {
+    return  clazz.getAnnotation(SerializeAnnotation::class.java)
+        .clazz.java
+        .getConstructor()
+        .newInstance()
 }
 
 /**
  * 开启协程
  */
-suspend fun <T: CoApi, R> T.with(func: T.()->R?): R? = withContext(Dispatchers.IO) {
+suspend fun <T: CoApi, R> T.wait(func: T.()->R?): R? = withContext(Dispatchers.IO) {
     func()
 }

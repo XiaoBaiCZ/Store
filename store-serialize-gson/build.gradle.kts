@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    id("kotlin-kapt")
     `maven-publish`
     signing
 }
@@ -16,8 +15,6 @@ java {
 dependencies {
     implementation(project(path = ":store"))
     implementation(libs.gson)
-    implementation(libs.auto.service.annotations)
-    kapt(libs.auto.service)
 }
 
 publishing {

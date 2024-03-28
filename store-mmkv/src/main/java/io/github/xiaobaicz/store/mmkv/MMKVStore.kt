@@ -1,11 +1,8 @@
-@file:Suppress("unused")
 package io.github.xiaobaicz.store.mmkv
 
-import com.google.auto.service.AutoService
 import com.tencent.mmkv.MMKV
 import io.github.xiaobaicz.store.Store
 
-@AutoService(Store::class)
 class MMKVStore : Store {
     private val map: MutableMap<String, MMKV> = HashMap()
     private fun findTable(table: String): MMKV {

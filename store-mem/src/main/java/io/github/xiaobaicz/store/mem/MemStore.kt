@@ -1,10 +1,7 @@
-@file:Suppress("unused")
 package io.github.xiaobaicz.store.mem
 
-import com.google.auto.service.AutoService
 import io.github.xiaobaicz.store.Store
 
-@AutoService(Store::class)
 class MemStore : Store {
     private val map: MutableMap<String, MutableMap<String, String>> = HashMap()
     private fun findTable(table: String): MutableMap<String, String> {
