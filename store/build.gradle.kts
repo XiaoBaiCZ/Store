@@ -1,15 +1,34 @@
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
     `maven-publish`
     signing
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-    withJavadocJar()
-    withSourcesJar()
+android {
+    namespace = "io.github.xiaobaicz.store"
+    compileSdk = 34
+
+    defaultConfig {
+        minSdk = 23
+
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
@@ -21,10 +40,10 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store"
-            version = "1.1.1"
+            version = "2.0.0"
 
             afterEvaluate {
-                from(components["java"])
+                from(components["release"])
             }
 
             pom {

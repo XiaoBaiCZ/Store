@@ -34,7 +34,6 @@ android {
 dependencies {
     implementation(project(path = ":store"))
     implementation(libs.mmkv)
-    implementation(libs.auto.service.annotations)
     kapt(libs.auto.service)
 
     implementation(libs.initializer)
@@ -45,7 +44,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store-mmkv"
-            version = "1.1.1"
+            version = "2.0.0"
 
             afterEvaluate {
                 from(components["release"])
