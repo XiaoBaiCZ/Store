@@ -47,8 +47,5 @@ dependencies {
 
     implementation(libs.initializer)
 
-    implementation(project(path = ":store"))
-    implementation(project(path = ":store-mem"))
     implementation(project(path = ":store-mmkv"))
-    implementation(project(path = ":store-serialize-gson"))
 }

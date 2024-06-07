@@ -3,10 +3,16 @@ package io.github.xiaobaicz.store.proxy
 import io.github.xiaobaicz.store.Clear
 import io.github.xiaobaicz.store.Serialize
 import io.github.xiaobaicz.store.Store
-import io.github.xiaobaicz.store.debug.log
-import io.github.xiaobaicz.store.debug.timeLog
+import io.github.xiaobaicz.store.exception.MethodDeclarationClassException
+import io.github.xiaobaicz.store.exception.MethodMatchingException
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.KProperty
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.jvm.javaGetter
+import kotlin.reflect.jvm.javaSetter
 
 /**
  * 存储代理类
@@ -15,98 +21,63 @@ import java.lang.reflect.Method
  * @param serialize 序列化接口
  */
 internal class StoreProxy(
-    private val clazz: Class<*>,
+    private val clazz: KClass<*>,
     private val store: Store,
     private val serialize: Serialize,
 ) : InvocationHandler {
 
-    override fun hashCode(): Int = clazz.hashCode() + store.hashCode() + serialize.hashCode()
+    // 分组名字，由接口类型计算
+    private val table: String = clazz.qualifiedName ?: ""
 
-    override fun equals(other: Any?): Boolean {
-        if (other == null) return false
-        if (other !is StoreProxy) return other == this
-        return clazz == other.clazz && store == other.store && serialize == other.serialize
-    }
-
-    override fun toString(): String {
-        return "Proxy<${clazz.name} | ${store::class.qualifiedName} | ${serialize::class.qualifiedName}>"
-    }
-
-    override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
-        method ?: throw NullPointerException("There is no method.")
-        return when (method.declaringClass) {
-            clazz -> handle(method, args)
-            Clear::class.java -> store.clear(table)
-            Any::class.java -> method.invoke(this, *(args ?: arrayOf()))
-            else -> throw RuntimeException("Methods that are not declared classes")
+    // Java方法->访问器 映射
+    private val accessorMap = HashMap<Method, KProperty.Accessor<*>>().apply {
+        clazz.declaredMemberProperties.forEach {
+            if (it is KMutableProperty<*>) {
+                this[it.javaGetter!!] = it.getter
+                this[it.javaSetter!!] = it.setter
+            }
         }
     }
 
-    // 是否Setter方法
-    private val Method.isSetter: Boolean get() = parameterTypes.size == 1
-            && returnType == Void.TYPE
-            && name.startsWith("set")
-
-    // 是否Getter方法
-    private val Method.isGetter: Boolean get() = parameterTypes.isEmpty()
-            && returnType != Void.TYPE
-            && (name.startsWith("get") || name.startsWith("is"))
-
-    // 分组名字，由接口类型计算
-    private val table: String = clazz.name
-
-    // 键名字，由方法名计算
-    private fun key(method: Method): String = when {
-        method.name.startsWith("set") -> method.name.substring(3)
-        method.name.startsWith("get") -> method.name.substring(3)
-        method.name.startsWith("is") -> method.name.substring(2)
-        else -> throw RuntimeException("Not a Getter or Setter method, can't get Key")
+    override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
+        method ?: return null
+        val argList = args ?: arrayOf()
+        return when (method.declaringClass.kotlin) {
+            clazz -> handle(method, argList)
+            Clear::class -> store.clear(table)
+            Any::class -> method.invoke(this, *argList)
+            else -> MethodDeclarationClassException(clazz, method)
+        }
     }
 
     // 处理接口方法
-    private fun handle(method: Method, args: Array<out Any>?): Any? = timeLog(" - time") {
-        when {
-            method.isGetter -> {
-                val any = getter(method.returnType, table, key(method))
-                any ?: migrate(table, key(method), method)
-            }
-            method.isSetter -> setter(table, key(method), args?.get(0))
-            else -> throw RuntimeException("Not a Getter or Setter method")
+    private fun handle(method: Method, args: Array<out Any>): Any? {
+        val accessor = accessorMap[method] ?: throw MethodMatchingException(method)
+        val key = accessor.property.name
+        return if (accessor is KProperty.Getter<*>) {
+            getter(method.returnType, key)
+        } else {
+            setter(key, args[0])
         }
     }
 
     // 处理Getter
-    private fun getter(returnType: Class<*>, table: String, key: String): Any? {
+    private fun getter(returnType: Class<*>, key: String): Any? {
         // 获取&反序列化
-        log("getter: $table -> $key")
         val data = store.get(table, key)
-        log(" - get: $data")
         val any = serialize.deserialize(returnType, data)
-        log(" - deserialize: $any")
         return any
     }
 
     // 处理Setter
-    private fun setter(table: String, key: String, arg: Any?) {
+    private fun setter(key: String, arg: Any?) {
         // 序列化&存储
-        log("setter: $table -> $key")
-        log(" - serialize: $arg")
         val data = serialize.serialize(arg)
-        log(" - set: $data")
         store.set(table, key, data)
     }
 
-    private fun migrate(table: String, key: String, method: Method): Any? {
-        val hook = Store.getterHook ?: return null
-        log("migrate: $table -> $key | start")
-        val old: Any? = hook.find(method.returnType, table, key)
-        log(" - get: $old")
-        if (old != null) {
-            log(" - set: $old")
-            setter(this.table, key(method), old)
-        }
-        log("migrate: $table -> $key | end")
-        return old
+    override fun toString(): String {
+        return "Proxy<${clazz.qualifiedName} | ${store::class.qualifiedName} | ${serialize::class.qualifiedName}>"
     }
 
 }

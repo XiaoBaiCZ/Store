@@ -1,2 +1,0 @@
--keep class ** implements io.github.xiaobaicz.store.Store { *; }
--keep class ** implements io.github.xiaobaicz.store.Serialize { *; }

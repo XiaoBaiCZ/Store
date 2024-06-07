@@ -19,7 +19,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -32,11 +35,10 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":store"))
-    implementation(libs.mmkv)
+    api(project(path = ":store"))
+    api(libs.mmkv)
+    api(libs.auto.service.annotations)
     kapt(libs.auto.service)
-
-    implementation(libs.initializer)
 }
 
 publishing {
@@ -44,7 +46,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store-mmkv"
-            version = "2.0.0"
+            version = "3.0.0"
 
             afterEvaluate {
                 from(components["release"])

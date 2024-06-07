@@ -1,9 +1,9 @@
-package io.github.xiaobaicz.store.serialize.gson
+package io.github.xiaobaicz.store.serialize
 
 import com.google.gson.Gson
 import io.github.xiaobaicz.store.Serialize
 
-class GsonSerialize : Serialize {
+object GsonSerialize : Serialize {
     private val gson = Gson()
     override fun serialize(target: Any?): String? {
         target ?: return null

@@ -32,7 +32,10 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.core)
+    api(kotlin("reflect"))
+    api(libs.gson)
+    api(libs.initializer)
+    kapt(libs.auto.service)
 }
 
 publishing {
@@ -40,7 +43,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.xiaobaicz"
             artifactId = "store"
-            version = "2.0.0"
+            version = "3.0.0"
 
             afterEvaluate {
                 from(components["release"])

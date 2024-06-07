@@ -18,6 +18,4 @@ dependencyResolutionManagement {
 rootProject.name = "store"
 include(":app")
 include(":store")
-include(":store-mem")
 include(":store-mmkv")
-include(":store-serialize-gson")
